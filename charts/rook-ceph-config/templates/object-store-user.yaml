@@ -1,0 +1,27 @@
+# https://rook.io/docs/rook/latest/CRDs/Object-Storage/ceph-object-store-user-crd/
+{{- $root := . -}}
+{{- range $user := .Values.objectStoreUsers }}
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: {{ include "rook-ceph-config.fullname" $root }}-{{ $user.name }}
+  labels:
+    {{- include "rook-ceph-config.labels" $root | nindent 4 }}
+spec:
+  store: ceph-objectstore
+  displayName: {{ $user.name }}
+  quotas:
+    maxBuckets: 100
+  capabilities:
+    user: "*"
+    bucket: "*"
+  opMask:
+    - read
+    - write
+    - delete
+  keys:
+  {{- with .keys }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

@@ -1,0 +1,42 @@
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 8443
+  # loadBalancerIP: 
+
+objectStoreUsers:
+  - name: gitlab
+    keys:
+      - accessKeyRef:
+          key: access-key
+          name: gitlab-object-store-user-keys
+        secretKeyRef:
+          key: secret-key
+          name: gitlab-object-store-user-keys    
+
+buckets:
+  - name: gitlab-artifacts
+    owner: gitlab
+  - name: gitlab-backup
+    owner: gitlab
+  - name: gitlab-backup-tmp
+    owner: gitlab
+  - name: gitlab-dependency-proxy
+    owner: gitlab
+  - name: gitlab-mr-diffs
+    owner: gitlab
+  - name: gitlab-lfs
+    owner: gitlab
+  - name: gitlab-packages
+    owner: gitlab
+  - name: gitlab-pseudo
+    owner: gitlab
+  - name: gitlab-terraform-state
+    owner: gitlab
+  - name: gitlab-uploads
+    owner: gitlab
+  - name: gitlab-registry
+    owner: gitlab

@@ -1,0 +1,16 @@
+# https://github.com/rook/rook/blob/master/Documentation/Storage-Configuration/Object-Storage-RGW/ceph-object-bucket-claim.md
+{{- $root := . -}}
+{{- range $bucket := .Values.buckets }}
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: {{ include "rook-ceph-config.fullname" $root }}-{{ $bucket.name }}
+  namespace: rook-ceph
+spec:
+  bucketName: {{ $bucket.name }}
+  generateBucketName: {{ $bucket.name }}
+  storageClassName: ceph-bucket
+  additionalConfig:
+    bucketOwner: {{ $bucket.owner }}
+{{- end }}
